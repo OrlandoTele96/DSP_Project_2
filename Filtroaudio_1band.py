@@ -54,10 +54,16 @@ strAudioPackage = lector.readframes(16)
 while len(strAudioPackage)==2*16:
     #Decodificacion
     audioPackage = struct.unpack(16*'h',strAudioPackage)
-
+    audioPackage_bass = struct.unpack(16*'h',strAudioPackage)
+    audioPackage_mid_bass = struct.unpack(16*'h',strAudioPackage)
+    audioPackage_mid_hi = struct.unpack(16*'h',strAudioPackage)
+    audioPackage_hi = struct.unpack(16*'h',strAudioPackage)
 
     #filtrado
-    audioPackage,edo=signal.lfilter(b1*G1,a1,audioPackage,zi=edo)
+    audioPackage_bass,edo=signal.lfilter(b1*G1,a1,audioPackage,zi=edo)
+    audioPackage_mid_bass,edo=signal.lfilter(b2*G2,a2,audioPackage,zi=edo)
+    audioPackage_mid_hi,edo=signal.lfilter(b3*G3,a3,audioPackage,zi=edo)
+    audioPackage_hi,edo=signal.lfilter(b3*G3,a3,audioPackage,zi=edo)
 
     #codificacion
     strAudioPackage=''.encode() #debe creae una estructura fija
